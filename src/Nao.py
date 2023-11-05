@@ -1,14 +1,14 @@
-from search import *
+from search import Problem
 from utils import *
 
 class NaoProblem(Problem):
-  def __init__(self, initial, goal, moves):
+  def __init__(self, initial, goal, moves): # avg_time, previous_moves
     super().__init(initial, goal)
     self.available_moves = moves
 
   # Function that evaluates if a move is usable after a certain state
   def isValid(self, state, move_name, move):
-      pass #check che ritorna una lista di mosse utilizzabili
+      pass #check che ritorna true se una mossa è utilizzabile, false viceversa
 
   def actions(delf, state):
     valid_actions = []
