@@ -8,9 +8,18 @@ class NaoProblem(Problem):
 
   # Function that evaluates if a move is usable after a certain state
   def isValid(self, state, move_name, move):
-      pass #check che ritorna true se una mossa è utilizzabile, false viceversa
+    if state['remaining_time'] < move.duration:
+      return False
+    # Check preconditions
+    if 'standing' in move.preconditions:
+      if state['standing'] != move.preconditions['standing']:
+        return False
+      
+    # Check if the move is different from the last two in the choreography
+    ######### DA COMPLETARE #########
+    return True
 
-  def actions(delf, state):
+  def actions(self, state):
     valid_actions = []
     # We cycle trough the moves set and check each for usability from current state
     for move_name, move in self.available_moves.items():
@@ -38,7 +47,11 @@ class NaoProblem(Problem):
         # If the action don't modify the standing state we keep the last one
         temp_standing = state['standing']
 
-    return {'choreography': (*state['choreography'], action), 'standing': temp_standing, 'remaining_time': state['remaining_time'] - nao_move.duration, 'moves_done': state['moves_done'] + 1, 'entropy': temp_entropy}
+    return {'choreography': (*state['choreography'], action), 
+            'standing': temp_standing, 
+            'remaining_time': state['remaining_time'] - nao_move.duration, 
+            'moves_done': state['moves_done'] + 1, 
+            'entropy': temp_entropy}
 
   def goal_test(self, state):
     # Given a state, return True if state is a goal state or False, otherwise
