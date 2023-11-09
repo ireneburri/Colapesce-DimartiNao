@@ -2,6 +2,18 @@ from Nao import NaoProblem
 from utils import *
 from search import *
 
+import vlc
+import time
+
+def play_song(song_name):
+    p = vlc.MediaPlayer(song_name)
+    try:
+        c = p.play()
+        time.sleep(60)
+    except Exception as e:
+        print(e)
+
+
 def main(ip, port):
     
     ########## Definition of moves ###########
@@ -72,7 +84,7 @@ def main(ip, port):
     print('\nExecuting dance:')
     
     # Soundtrack starting
-    ##### play_song('song.mp3') #####
+    play_song("music.mp3")
     start_dance = time.time()
     do_moves(solution, ip, port)
     end_dance = time.time()
