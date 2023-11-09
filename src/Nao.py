@@ -74,7 +74,7 @@ class NaoProblem(Problem):
     return time_constraint and moves_done_constraint and entropy_constraint and standing_constraint
 
     # Heuristic function used in A* search
-    def h(self, node):
-        # We implemented a simple heuristic that estimates the cost to reach the goal
-        # by multiplying the number of remaining moves to the avg_time of our moves set
-        return (self.goal['moves_done'] - node.state['moves_done']) * self.avg_time
+  def h(self, node):
+    # We implemented a simple heuristic that estimates the cost to reach the goal
+    # by multiplying the number of remaining moves to the avg_time of our moves set
+    return (self.goal['moves_done'] - node.state['moves_done']) * self.avg_time
