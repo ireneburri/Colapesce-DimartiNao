@@ -3,7 +3,7 @@ from utils import *
 
 class NaoProblem(Problem):
   def __init__(self, initial, goal, moves): # avg_time, previous_moves
-    super().__init(initial, goal)
+    super().__init__(initial, goal)
     self.available_moves = moves
 
   # Function that evaluates if a move is usable after a certain state
@@ -77,4 +77,4 @@ class NaoProblem(Problem):
   def h(self, node):
     # We implemented a simple heuristic that estimates the cost to reach the goal
     # by multiplying the number of remaining moves to the avg_time of our moves set
-    return (self.goal['moves_done'] - node.state['moves_done']) * self.avg_time
+    return (self.goal['moves_done'] - node.state['moves_done'])# * self.avg_time

@@ -1,6 +1,6 @@
 # Choregraphe bezier export in Python.
 from naoqi import ALProxy
-
+import sys
 def main(robotIP, port):
     names = list()
     times = list()
@@ -107,27 +107,24 @@ def main(robotIP, port):
     keys.append([[-0.122173, [3, -0.346667, 0], [3, 0.24, 0]], [-0.119694, [3, -0.24, 0], [3, 0.413333, 0]], [-0.119694, [3, -0.413333, 0], [3, 0.36, 0]], [-0.130432, [3, -0.36, 0.00271593], [3, 0.453333, -0.00342006]], [-0.138102, [3, -0.453333, 0.00204533], [3, 0.226667, -0.00102267]], [-0.139636, [3, -0.226667, 0.000852225], [3, 0.453333, -0.00170445]], [-0.145772, [3, -0.453333, 0.00613606], [3, 0.44, -0.00595558]], [-0.22554, [3, -0.44, 0], [3, 0.226667, 0]], [0.662646, [3, -0.226667, 0], [3, 0.226667, 0]], [0.529187, [3, -0.226667, 0.0693563], [3, 0.4, -0.122394]], [0.0873961, [3, -0.4, 0], [3, 0.333333, 0]], [0.161028, [3, -0.333333, 0], [3, 0, 0]]])
 
     try:
-    # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-    # motion = ALProxy("ALMotion", IP, 9559)
-    motion = ALProxy("ALMotion")
-    motion.angleInterpolationBezier(names, times, keys)
+  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+  # motion = ALProxy("ALMotion", IP, 9559)
+        motion = ALProxy("ALMotion", robotIP, port)
+        motion.angleInterpolationBezier(names, times, keys)
     except BaseException, err:
-    print err
+        print err
 
 
 if __name__ == "__main__":
 
-    robotIP = "127.0.0.1" 
+  robotIP = "127.0.0.1" #"192.168.1.11"
 
-    port = 9559 # Insert NAO port
+  port = 9559 # Insert NAO port
 
+  if len(sys.argv) == 2:
+    robotIP = sys.argv[1]
+  elif len(sys.argv) > 2:
+    port = int(sys.argv[2])
+    robotIP = sys.argv[1]
 
-    if len(sys.argv) <= 1:
-        print "(robotIP default: 127.0.0.1)"
-    elif len(sys.argv) <= 2:
-        robotIP = sys.argv[1]
-    else:
-        port = int(sys.argv[2])
-        robotIP = sys.argv[1]
-
-    main(robotIP, port)
+  main(robotIP, port)
