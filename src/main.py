@@ -3,9 +3,9 @@ from utils import *
 from search import *
 
 import vlc
-import time
 import subprocess
 import time
+import math
 
 def play_song(song_name):
     p = vlc.MediaPlayer(song_name)
@@ -43,7 +43,7 @@ def main(ip, port):
      '10-Diagonal_right': [4.309990406036377, True, True], 'WipeForehead': [6.847378730773926, True, True], 
      'Hello': [6.775498390197754, True, True], '11-Stand': [1.9577922821044922, True, True], 
      '14-StandInit': [2.794734477996826, True, True], '15-StandZero': [3.192218780517578, True, True], 
-     '16-Sit': [176.1734857559204, True, False], '17-SitRelax': [10.248263120651245, False, False]}
+     '16-Sit': [6.1734857559204, True, False], '17-SitRelax': [10.248263120651245, False, False]}
     
     start_pos = '14-StandInit'
     mandatory_pos = ['16-Sit', '17-SitRelax', '11-Stand', '15-StandZero', 'Hello', 'WipeForehead']
@@ -54,6 +54,7 @@ def main(ip, port):
     for pos in pos_list:
         time_used += moves[pos][0] #duration
         
+    
     ######### Possible definition of average time #########
     
     
@@ -61,12 +62,13 @@ def main(ip, port):
     print("SOLUTION:")
     starting_time = time.time()
     interval_time = (120 - time_used) / (len(pos_list) - 1)
+    print(f"interv time: {interval_time} e time used {time_used}")
     waste = 0.0
     for i in range(1, len(pos_list)):
         initial_pos = pos_list[i - 1]
         final_pos = pos_list[i]
         
-        choreography = [initial_pos] # Per ora è un singolo oggetto, poi da cambiare
+        choreography = (initial_pos, ) # Per ora è un singolo oggetto, poi da cambiare
         if initial_pos == '17-SitRelax':
         # Is the only position that requires the sitting prerequisite
             initial_standing = False
@@ -78,19 +80,19 @@ def main(ip, port):
         else:
             final_standing = True
         
-        cur_state = {
-            'choreography': choreography,
-            'standing': initial_standing,
-            'remaining_time': interval_time + waste,
-            'moves_done': 0,
-            'entropy': 0.0}
-        cur_goal_state = {
-            'standing': final_standing,
-            'remaining_time': 0,
-            'moves_done': 5,
-            'entropy': 2.0} # entropia da calcolare, deve essere variabile
+        cur_state = (
+            ('choreography', choreography),
+            ('standing', initial_standing),
+            ('remaining_time', interval_time + waste),
+            ('moves_done', 0),
+            ('entropy', 0.0))
+        cur_goal_state = (
+            ('standing', final_standing),
+            ('remaining_time', 0),
+            ('moves_done', 1), #dovrebbe essere 5!!!!
+            ('entropy', 2.0)) # entropia da calcolare, deve essere variabile
         
-        cur_problem = NaoProblem(cur_state, cur_goal_state, moves)
+        cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution))
         cur_solution = astar_search(cur_problem)
         if cur_solution is None:
             raise RuntimeError(f'In step {i} i could not find a solution!')

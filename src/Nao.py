@@ -1,18 +1,40 @@
 from search import Problem
 from utils import *
+import math 
+
+def entropy_calc(choreography):
+    # We keep track of the moves used in the choreography
+    frequency_dict = {}
+    for move in choreography:
+        if move not in frequency_dict:
+            # If absent initialize it to 1
+            frequency_dict[move] = 1
+        else:
+            # If present update the value
+            frequency_dict[move] += 1
+    result = 0.0
+    # Entropy as defined by Shannon
+    for unique_move, frequency in frequency_dict.items():
+        probability = frequency / len(choreography)
+        # The log is negative so we used -=
+        result -= probability * math.log(probability, 2)
+    return result
 
 class NaoProblem(Problem):
-  def __init__(self, initial, goal, moves): # avg_time, previous_moves
+  def __init__(self, initial, goal, moves, previous_moves): # avg_time, previous_moves
     super().__init__(initial, goal)
-    self.available_moves = moves
+    self.available_moves = moves 
+    self.previous_moves = previous_moves 
+
 
   # Function that evaluates if a move is usable after a certain state
-  def isValid(self, state, move_name, move):
-    if state['remaining_time'] < move.duration:
+  def isValid(self, stateT, move_name, move):
+    state = dict((key, value) for key, value in stateT)
+    if state['remaining_time'] < move[0]:
       return False
     # Check preconditions
-    if 'standing' in move.preconditions:
-      if state['standing'] != move.preconditions['standing']:
+    if move[1]:
+      if state['standing'] != move[1]:
         return False
       
     # Check if the move is different from the last two in the choreography
@@ -30,7 +52,8 @@ class NaoProblem(Problem):
     random.shuffle(valid_actions)
     return valid_actions
 
-  def result(self, state, action):
+  def result(self, stateT, action):
+    state = dict((key, value) for key, value in stateT)
     # We already checked the action in the actions function so they are valid
     nao_move = self.available_moves[action]
     # We used a util function to convert the state in a dictionary
@@ -41,24 +64,25 @@ class NaoProblem(Problem):
     temp_entropy = entropy_calc(temp_choreography)
 
     # We set the postcondition of this action
-    if 'standing' in nao_move.postconditions:
-        temp_standing = nao_move.postconditions['standing']
+    if nao_move[2]:
+        temp_standing = nao_move[2]
     else:
         # If the action don't modify the standing state we keep the last one
         temp_standing = state['standing']
 
-    return {'choreography': (*state['choreography'], action), 
-            'standing': temp_standing, 
-            'remaining_time': state['remaining_time'] - nao_move.duration, 
-            'moves_done': state['moves_done'] + 1, 
-            'entropy': temp_entropy}
+    return (('choreography', (*state['choreography'], action)), ('standing', temp_standing), 
+            ('remaining_time', state['remaining_time'] - nao_move[0]), 
+            ('moves_done', state['moves_done'] + 1), ('entropy', temp_entropy))
 
-  def goal_test(self, state):
+  def goal_test(self, stateT):
+    state = dict((key, value) for key, value in stateT)
+    goal = dict((key, value) for key, value in self.goal)
+
     # Given a state, return True if state is a goal state or False, otherwise
     # We used a util function to convert the state in a dictionary
 
     # We create an interval to check if we filled the time slot for this step
-    goal_remaining_time = self.goal['remaining_time']
+    goal_remaining_time = goal['remaining_time']
     a = goal_remaining_time
     b = goal_remaining_time + 1
 
@@ -66,15 +90,17 @@ class NaoProblem(Problem):
     # Check if we filled the time slot for this step
     time_constraint = (a <= state['remaining_time'] <= b)
     # Check if we chose enough moves for this step
-    moves_done_constraint = (state['moves_done'] >= self.goal['moves_done'])
+    moves_done_constraint = (state['moves_done'] >= goal['moves_done'])
     # Check if we chose moves that are diverse enough
-    entropy_constraint = (state['entropy'] >= self.goal['entropy'])
+    entropy_constraint = (state['entropy'] >= goal['entropy'])
     # Check if we reached our goal standing state
-    standing_constraint = (state['standing'] == self.goal['standing'])
+    standing_constraint = (state['standing'] == goal['standing'])
     return time_constraint and moves_done_constraint and entropy_constraint and standing_constraint
 
     # Heuristic function used in A* search
-  def h(self, node):
+  def h(self, nodeT):
+    state = dict((key, value) for key, value in nodeT.state)
+    goal = dict((key, value) for key, value in self.goal)
     # We implemented a simple heuristic that estimates the cost to reach the goal
     # by multiplying the number of remaining moves to the avg_time of our moves set
-    return (self.goal['moves_done'] - node.state['moves_done'])# * self.avg_time
+    return (goal['moves_done'] - state['moves_done'])# * self.avg_time !!!!!!!!!!!!!!!!!!
