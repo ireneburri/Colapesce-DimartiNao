@@ -54,9 +54,11 @@ def main(ip, port):
     for pos in pos_list:
         time_used += moves[pos][0] #duration
         
-    
-    ######### Possible definition of average time #########
-    
+    avg_time = 0.0
+    for pos in moves.values():
+        avg_time += pos[0]
+    avg_time = avg_time/len(moves)
+    print(f"avg time {avg_time}")
     
     solution = []
     print("SOLUTION:")
@@ -92,7 +94,7 @@ def main(ip, port):
             ('moves_done', 1), #dovrebbe essere 5!!!!
             ('entropy', 2.0)) # entropia da calcolare, deve essere variabile
         
-        cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution))
+        cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
         cur_solution = astar_search(cur_problem)
         if cur_solution is None:
             raise RuntimeError(f'In step {i} i could not find a solution!')

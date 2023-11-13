@@ -21,10 +21,13 @@ def entropy_calc(choreography):
     return result
 
 class NaoProblem(Problem):
-  def __init__(self, initial, goal, moves, previous_moves): # avg_time, previous_moves
+  def __init__(self, initial, goal, moves, previous_moves, avg_time): # avg_time, previous_moves
     super().__init__(initial, goal)
     self.available_moves = moves 
     self.previous_moves = previous_moves 
+    self.avg_time = avg_time
+   
+
 
 
   # Function that evaluates if a move is usable after a certain state
@@ -103,4 +106,4 @@ class NaoProblem(Problem):
     goal = dict((key, value) for key, value in self.goal)
     # We implemented a simple heuristic that estimates the cost to reach the goal
     # by multiplying the number of remaining moves to the avg_time of our moves set
-    return (goal['moves_done'] - state['moves_done'])# * self.avg_time !!!!!!!!!!!!!!!!!!
+    return (goal['moves_done'] - state['moves_done']) * self.avg_time
