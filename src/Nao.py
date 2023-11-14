@@ -26,9 +26,6 @@ class NaoProblem(Problem):
     self.available_moves = moves 
     self.previous_moves = previous_moves 
     self.avg_time = avg_time
-   
-
-
 
   # Function that evaluates if a move is usable after a certain state
   def isValid(self, stateT, move_name, move):
@@ -36,10 +33,10 @@ class NaoProblem(Problem):
     if state['remaining_time'] < move[0]:
       return False
     # Check preconditions
-    if move[1]:
-      if state['standing'] != move[1]:
+    if 'standing' in move[1]:
+      if state['standing'] != move[1]['standing']:
         return False
-      
+        
     # Check if the move is different from the last two in the choreography
     ######### DA COMPLETARE #########
     return True
@@ -65,10 +62,9 @@ class NaoProblem(Problem):
     temp_choreography = [*self.previous_moves, *state['choreography'], action]
     # Now we calculate the entropy of the temp choreography using a util function
     temp_entropy = entropy_calc(temp_choreography)
-
     # We set the postcondition of this action
-    if nao_move[2]:
-        temp_standing = nao_move[2]
+    if 'standing' in nao_move[2]:
+        temp_standing = nao_move[2]['standing']
     else:
         # If the action don't modify the standing state we keep the last one
         temp_standing = state['standing']
@@ -98,6 +94,8 @@ class NaoProblem(Problem):
     entropy_constraint = (state['entropy'] >= goal['entropy'])
     # Check if we reached our goal standing state
     standing_constraint = (state['standing'] == goal['standing'])
+    #print(f"standing {state['standing']} == {goal['standing']}  :  {standing_constraint}")
+    print(time_constraint and moves_done_constraint and entropy_constraint and standing_constraint)
     return time_constraint and moves_done_constraint and entropy_constraint and standing_constraint
 
     # Heuristic function used in A* search

@@ -29,30 +29,31 @@ def do_moves(moves, ip, port):
 def main(ip, port):
     
     ########## Definition of moves ########### (Ancora troppo lente)
-    moves = {'birthday_dance_no_sound': [14.775976181030273, True, True], 'Disco': [23.86342430114746, True, True], 
-     'do_clapping_nosound': [6.812563896179199, True, True], 'hand_on_hip_with_point': [5.939987659454346, True, True], 
-     'hands_on_hips': [3.282095193862915, True, True], 'head_nod': [4.943183660507202, True, True], 
-     'Headbang': [19.383045434951782, True, True], 'raise_the_roof': [5.969377756118774, True, True], 
-     'shake_head': [5.66715145111084, True, True], 'sing_with_me': [25.218955516815186, True, True], 
-     'sprinkler_left': [13.973316431045532, True, True], 'sprinkler_right': [12.346796035766602, True, True], 
-     'the_robot_2': [7.365086317062378, True, True], '1-Rotation_handgun_object': [5.3489086627960205, True, True], 
-     '2-Right_arm': [15.06546950340271, True, True], '3-Double_movement': [8.972091674804688, True, True], 
-     '4-Arms_opening': [9.06206750869751, True, True], '5-Union_arms': [12.324305057525635, True, True], 
-     '6-Crouch': [5.711416721343994, True, True], '7-Move_forward': [7.902349233627319, True, True], 
-     '8-Move_backward': [5.696051359176636, True, True], '9-Diagonal_left': [4.640681982040405, True, True], 
-     '10-Diagonal_right': [4.309990406036377, True, True], 'WipeForehead': [6.847378730773926, True, True], 
-     'Hello': [6.775498390197754, True, True], '11-Stand': [1.9577922821044922, True, True], 
-     '14-StandInit': [2.794734477996826, True, True], '15-StandZero': [3.192218780517578, True, True], 
-     '16-Sit': [6.1734857559204, True, False], '17-SitRelax': [10.248263120651245, False, False]}
+    moves = {'birthday_dance_no_sound': [14.775976181030273, {}, {}], 'Disco': [23.86342430114746, {}, {}], 
+     'do_clapping_nosound': [6.812563896179199, {}, {}], 'hand_on_hip_with_point': [5.939987659454346, {}, {}], 
+     'hands_on_hips': [3.282095193862915, {}, {}], 'head_nod': [4.943183660507202, {}, {}], 
+     'Headbang': [19.383045434951782, {}, {}], 'raise_the_roof': [5.969377756118774, {}, {}], 
+     'shake_head': [5.66715145111084, {}, {}], 'sing_with_me': [25.218955516815186, {}, {}], 
+     'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], 'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], 
+     'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], 
+     '2-Right_arm': [15.06546950340271, {}, {}], '3-Double_movement': [8.972091674804688, {}, {}], 
+     '4-Arms_opening': [9.06206750869751, {}, {}], '5-Union_arms': [12.324305057525635, {}, {}], 
+     '7-Move_forward': [7.902349233627319, {}, {'standing': True}], 
+     '8-Move_backward': [5.696051359176636, {}, {'standing': True}], '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], 
+     '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}]} 
+    
+    Mmoves = {'6-Crouch': [5.711416721343994, {'standing': True}, {'standing': True}], 'WipeForehead': [6.847378730773926, {'standing': True}, {'standing': True}], 
+     'Hello': [6.775498390197754, {'standing': True}, {'standing': True}], '11-Stand': [1.9577922821044922, {'standing': True}, {'standing': True}], 
+     '14-StandInit': [2.794734477996826, {'standing': True}, {'standing': True}], '15-StandZero': [3.192218780517578, {'standing': True}, {'standing': True}], 
+     '16-Sit': [6.1734857559204, {'standing': True}, {'standing': False}], '17-SitRelax': [10.248263120651245, {'standing': False}, {'standing': False}]}
     
     start_pos = '14-StandInit'
-    mandatory_pos = ['16-Sit', '17-SitRelax', '11-Stand', '15-StandZero', 'Hello', 'WipeForehead']
+    mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'WipeForehead', '16-Sit', '17-SitRelax']
     end_pos = '6-Crouch'
     pos_list = [start_pos, *mandatory_pos, end_pos]
-    print(pos_list)
     time_used = 0.0
     for pos in pos_list:
-        time_used += moves[pos][0] #duration
+        time_used += Mmoves[pos][0] #duration
         
     avg_time = 0.0
     for pos in moves.values():
@@ -71,16 +72,10 @@ def main(ip, port):
         final_pos = pos_list[i]
         
         choreography = (initial_pos, ) # Per ora è un singolo oggetto, poi da cambiare
-        if initial_pos == '17-SitRelax':
-        # Is the only position that requires the sitting prerequisite
-            initial_standing = False
-        else:
-            initial_standing = True
         
-        if final_pos == '16-Sit' or final_pos == '17-SitRelax':
-            final_standing = False
-        else:
-            final_standing = True
+        initial_standing = Mmoves[pos_list[i]][1]['standing']
+        final_standing = Mmoves[pos_list[i]][2]['standing']
+        print(initial_standing, final_standing)
         
         cur_state = (
             ('choreography', choreography),
@@ -92,10 +87,12 @@ def main(ip, port):
             ('standing', final_standing),
             ('remaining_time', 0),
             ('moves_done', 1), #dovrebbe essere 5!!!!
-            ('entropy', 2.0)) # entropia da calcolare, deve essere variabile
+            ('entropy', 0.0)) # entropia da calcolare, deve essere variabile
         
         cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
-        cur_solution = astar_search(cur_problem)
+        cur_solutionT = astar_search(cur_problem)
+        cur_solution = dict((key, value) for key, value in cur_solutionT.state)
+        print(cur_solution)
         if cur_solution is None:
             raise RuntimeError(f'In step {i} i could not find a solution!')
         
