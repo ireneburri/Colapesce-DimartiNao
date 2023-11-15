@@ -29,26 +29,97 @@ def do_moves(moves, ip, port):
 def main(ip, port):
     
     ########## Definition of moves ########### (Ancora troppo lente)
-    moves = {'birthday_dance_no_sound': [14.775976181030273, {}, {}], 'Disco': [23.86342430114746, {}, {}], 
-     'do_clapping_nosound': [6.812563896179199, {}, {}], 'hand_on_hip_with_point': [5.939987659454346, {}, {}], 
-     'hands_on_hips': [3.282095193862915, {}, {}], 'head_nod': [4.943183660507202, {}, {}], 
-     'Headbang': [19.383045434951782, {}, {}], 'raise_the_roof': [5.969377756118774, {}, {}], 
-     'shake_head': [5.66715145111084, {}, {}], 'sing_with_me': [25.218955516815186, {}, {}], 
-     'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], 'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], 
-     'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], 
-     '2-Right_arm': [15.06546950340271, {}, {}], '3-Double_movement': [8.972091674804688, {}, {}], 
-     '4-Arms_opening': [9.06206750869751, {}, {}], '5-Union_arms': [12.324305057525635, {}, {}], 
-     '7-Move_forward': [7.902349233627319, {}, {'standing': True}], 
-     '8-Move_backward': [5.696051359176636, {}, {'standing': True}], '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], 
-     '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}]} 
+    moves = {'StandUp': [2.6926817893981934, {'standing': False}, {'standing': True}], #AI
+            #'DiagonalLeft': [6.5762670040130615, {}, {'standing': True}], #AI
+            '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], #NOI
+            'DoubleMovement': [8.062368392944336, {}, {}], #AI
+            #'3-Double_movement': [8.972091674804688, {}, {}], #NOI
+            #'MoveBackward': [6.146073579788208, {}, {'standing': True}], #AI
+            '8-Move_backward': [5.696051359176636, {}, {'standing': True}], #NOI
+            'MoveForward': [4.480520963668823, {}, {'standing': True}], #AI
+            #'7-Move_forward': [7.902349233627319, {}, {'standing': True}], #NOI
+            'RotationFootLLeg': [9.037095546722412, {'standing': True}, {'standing': True}], #AI
+            #'RotationHandgun': [7.611491918563843, {}, {}], #AI
+            '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], #NOI
+            #'Union_arms': [12.452294826507568, {}, {}], #AI
+            '5-Union_arms': [12.324305057525635, {}, {}], #NOI
+            'ArmsOpening': [7.709415674209595, {}, {}], #AI
+            #'4-Arms_opening': [9.06206750869751, {}, {}], #NOI
+            'BlowKisses': [6.305241823196411, {'standing': True}, {'standing': True}], #NO
+            'Bow': [5.573694705963135, {'standing': True}, {'standing': True}], #NO
+            #'DiagonalRight': [4.8617730140686035, {}, {'standing': True}], #AI
+            '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}], #NOI
+            'DanceMove': [8.829241037368774, {'standing': True}, {'standing': True}], #NO
+            'SprinklerL': [6.331864833831787, {'standing': True}, {'standing': True}], #AI
+            #'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], #NOI
+            'SprinklerR': [6.37097430229187, {'standing': True}, {'standing': True}], #AI
+            #'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], #NOI
+            #'TheRobot': [8.881108283996582, {'standing': True}, {'standing': True}], #AI
+            'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], #NOI
+            'ComeOn': [5.594178199768066, {'standing': True}, {'standing': True}], #NO
+            'StayingAlive': [8.572153329849243, {'standing': True}, {'standing': True}], #NO
+            'Rhythm': [4.64671516418457, {'standing': True}, {'standing': True}], #NO
+            'PulpFiction': [8.020118713378906, {'standing': True}, {'standing': True}], #NO
+            'RightArm': [13.841203689575195, {}, {}], #AI
+            #'2-Right_arm': [15.06546950340271, {}, {}], #NOI 
+            'Wave': [5.356391429901123, {}, {}], #NO
+            'Glory': [4.884756326675415, {}, {}], #NO
+            'Clap': [5.965200901031494, {}, {}], #AI
+            #'do_clapping_nosound': [6.812563896179199, {}, {}], #NOI
+            'Joy': [6.400599718093872, {}, {}], #NO
+            'M_Hello': [6.406063079833984, {'standing': True}, {'standing': True}], #AI
+            'birthday_dance_no_sound': [14.775976181030273, {}, {}], #NOI
+            'Disco': [23.86342430114746, {}, {}], #NOI
+            'hand_on_hip_with_point': [5.939987659454346, {}, {}], #NOI
+            'hands_on_hips': [3.282095193862915, {}, {}], #NOI
+            'head_nod': [4.943183660507202, {}, {}], #NOI
+            #'Headbang': [19.383045434951782, {}, {}], #NOI
+            'raise_the_roof': [5.969377756118774, {}, {}], #NOI
+            'shake_head': [5.66715145111084, {}, {}], #NOI
+            #'sing_with_me': [25.218955516815186, {}, {}], #NOI
+            }
     
-    Mmoves = {'6-Crouch': [5.711416721343994, {'standing': True}, {'standing': True}], 'WipeForehead': [6.847378730773926, {'standing': True}, {'standing': True}], 
-     'Hello': [6.775498390197754, {'standing': True}, {'standing': True}], '11-Stand': [1.9577922821044922, {'standing': True}, {'standing': True}], 
-     '14-StandInit': [2.794734477996826, {'standing': True}, {'standing': True}], '15-StandZero': [3.192218780517578, {'standing': True}, {'standing': True}], 
-     '16-Sit': [6.1734857559204, {'standing': True}, {'standing': False}], '17-SitRelax': [10.248263120651245, {'standing': False}, {'standing': False}]}
+    """moves nostre= {
+            'birthday_dance_no_sound': [14.775976181030273, {}, {}], 
+            'Disco': [23.86342430114746, {}, {}], 
+            'do_clapping_nosound': [6.812563896179199, {}, {}], 
+            'hand_on_hip_with_point': [5.939987659454346, {}, {}], 
+            'hands_on_hips': [3.282095193862915, {}, {}], 
+            'head_nod': [4.943183660507202, {}, {}], 
+            'Headbang': [19.383045434951782, {}, {}], 
+            'raise_the_roof': [5.969377756118774, {}, {}], 
+            'shake_head': [5.66715145111084, {}, {}], 
+            'sing_with_me': [25.218955516815186, {}, {}], 
+            'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], 
+            'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], 
+            'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], 
+            '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], 
+            '2-Right_arm': [15.06546950340271, {}, {}], 
+            '3-Double_movement': [8.972091674804688, {}, {}], 
+            '4-Arms_opening': [9.06206750869751, {}, {}], 
+            '5-Union_arms': [12.324305057525635, {}, {}], 
+            '7-Move_forward': [7.902349233627319, {}, {'standing': True}], 
+            '8-Move_backward': [5.696051359176636, {}, {'standing': True}], 
+            '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], 
+            '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}]}
+    """
+
+    Mmoves = {'6-Crouch': [5.711416721343994, {'standing': True}, {'standing': True}], 
+              'M_WipeForehead': [6.438775539398193, {'standing': True}, {'standing': True}], #AI 
+              #'WipeForehead': [6.847378730773926, {'standing': True}, {'standing': True}], #NOI
+              'Hello': [6.775498390197754, {'standing': True}, {'standing': True}], 
+              #'M_Stand': [3.652195930480957, {'standing': True}, {'standing': True}], #AI
+              '11-Stand': [1.9577922821044922, {'standing': True}, {'standing': True}], #NOI
+              'M_StandInit': [2.5300939083099365, {'standing': True}, {'standing': True}], #AI
+              #'14-StandInit': [2.794734477996826, {'standing': True}, {'standing': True}], #NOI
+              '15-StandZero': [3.192218780517578, {'standing': True}, {'standing': True}], 
+              '16-Sit': [6.1734857559204, {'standing': True}, {'standing': False}], 
+              'M_SitRelax': [5.870312213897705, {'standing': False}, {'standing': False}] #AI
+              #'17-SitRelax': [10.248263120651245, {'standing': False}, {'standing': False}], #NOI
+            }
     
-    start_pos = '14-StandInit'
-    mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'WipeForehead', '16-Sit', '17-SitRelax']
+    start_pos = 'M_StandInit'
+    mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'M_WipeForehead', '16-Sit', 'M_SitRelax']
     end_pos = '6-Crouch'
     pos_list = [start_pos, *mandatory_pos, end_pos]
     time_used = 0.0
@@ -86,16 +157,17 @@ def main(ip, port):
         cur_goal_state = (
             ('standing', final_standing),
             ('remaining_time', 0),
-            ('moves_done', 1), #dovrebbe essere 5!!!!
+            ('moves_done', 3), #dovrebbe essere 5!!!!
             ('entropy', 0.0)) # entropia da calcolare, deve essere variabile
         
         cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
         cur_solutionT = astar_search(cur_problem)
-        cur_solution = dict((key, value) for key, value in cur_solutionT.state)
-        print(cur_solution)
-        if cur_solution is None:
-            raise RuntimeError(f'In step {i} i could not find a solution!')
         
+        print(cur_solutionT)
+        if cur_solutionT is None:
+            raise RuntimeError(f'In step {i} i could not find a solution!')
+        cur_solution = dict((key, value) for key, value in cur_solutionT.state)
+
         print('Step ', i, ':')
         for j in cur_solution['choreography']:
             print(' ' + j)

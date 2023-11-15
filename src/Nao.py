@@ -95,7 +95,7 @@ class NaoProblem(Problem):
     # Check if we reached our goal standing state
     standing_constraint = (state['standing'] == goal['standing'])
     #print(f"standing {state['standing']} == {goal['standing']}  :  {standing_constraint}")
-    print(time_constraint and moves_done_constraint and entropy_constraint and standing_constraint)
+    #print(time_constraint and moves_done_constraint and entropy_constraint and standing_constraint)
     return time_constraint and moves_done_constraint and entropy_constraint and standing_constraint
 
     # Heuristic function used in A* search
