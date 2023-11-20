@@ -36,28 +36,15 @@ class NaoProblem(Problem):
     if 'standing' in move[1]:
       if state['standing'] != move[1]['standing']:
         return False
-        
-    # Check if the move is different from the last two in the choreography
-    size = len(state['choreography'])
-    
-    # if size > 1:
-    #   print(state['choreography'][-1] == move_name and state['choreography'][-2] == move_name)
-    #   if state['choreography'][-1] == move_name and state['choreography'][-2] == move_name:
-    #     return False
-    # if len(self.previous_moves[-1]) == 2:
-    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name:
-    #     return False
-    # if len(self.previous_moves[-1]) == 3:
-    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name:
-    #     return False
-    # if len(self.previous_moves[-1]) == 4:
-    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name \
-    #     or self.previous_moves[-1][-4] == move_name:
-    #     return False
-    # if len(self.previous_moves[-1]) == 5:
-    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name \
-    #     or self.previous_moves[-1][-4] == move_name or self.previous_moves[-1][-5] == move_name:
-    #     return False
+
+    #controllo che sia diversa alle 3 mosse precedenti 
+    if len(state['choreography'])>=1 and move_name == state['choreography'][-1]:
+       return False
+    if len(state['choreography'])>=2 and move_name == state['choreography'][-2]:
+       return False
+    if len(state['choreography'])>=3 and move_name == state['choreography'][-3]:
+       return False
+  
     return True
 
   def actions(self, state):
@@ -111,6 +98,7 @@ class NaoProblem(Problem):
     moves_done_constraint = (state['moves_done'] >= goal['moves_done'])
     # Check if we chose moves that are diverse enough
     entropy_constraint = (state['entropy'] >= goal['entropy'])
+
     # Check if we reached our goal standing state
     standing_constraint = (state['standing'] == goal['standing'])
     #print(f"standing {state['standing']} == {goal['standing']}  :  {standing_constraint}")

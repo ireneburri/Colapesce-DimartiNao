@@ -19,7 +19,7 @@ def do_moves(moves, ip, port):
     for move in moves:
         print(f"Move: {move}... ", end="", flush=True)
         # We create a command to execute each move one by one
-        command = f"python2 ./Animations/{move}.py  {ip} {port}"
+        command = f"python2 ./moves/{move}.py  {ip} {port}"
         start_move = time.time()
         process = subprocess.run(command.split(), stdout=subprocess.PIPE)
         end_move = time.time()
@@ -77,6 +77,7 @@ def main(ip, port):
             'raise_the_roof': [5.969377756118774, {}, {}], #NOI
             'shake_head': [5.66715145111084, {}, {}], #NOI
             #'sing_with_me': [25.218955516815186, {}, {}], #NOI
+            '16-Sit': [3.1734857559204, {'standing': True}, {'standing': False}]
             }
     
     """moves nostre= {
@@ -144,10 +145,12 @@ def main(ip, port):
         
         choreography = (initial_pos, ) # Per ora è un singolo oggetto, poi da cambiare
         
-        initial_standing = Mmoves[pos_list[i]][1]['standing']
-        final_standing = Mmoves[pos_list[i]][2]['standing']
+        print("tempo mossa i", Mmoves[pos_list[i-1]])
+        initial_standing = Mmoves[pos_list[i-1]][1]['standing']
+        final_standing = Mmoves[pos_list[i-1]][2]['standing']
         print(initial_standing, final_standing)
         
+        entropy = [0, 0, 0, 0, 0, 0, 0, 0]
         cur_state = (
             ('choreography', choreography),
             ('standing', initial_standing),
@@ -158,7 +161,7 @@ def main(ip, port):
             ('standing', final_standing),
             ('remaining_time', 0),
             ('moves_done', 5), #dovrebbe essere 5!!!!
-            ('entropy', 0.0)) # entropia da calcolare, deve essere variabile
+            ('entropy', entropy[i])) # entropia da calcolare, deve essere variabile
         
         cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
         cur_solutionT = astar_search(cur_problem)
@@ -185,7 +188,7 @@ def main(ip, port):
     print('\nExecuting dance:')
     
     # Soundtrack starting
-    play_song("music.mp3")
+    play_song("music.mp3") #XXXXXXXXXXXXXXXXXXXXX
     start_dance = time.time()
     do_moves(solution, ip, port)
     end_dance = time.time()
