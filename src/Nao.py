@@ -38,7 +38,26 @@ class NaoProblem(Problem):
         return False
         
     # Check if the move is different from the last two in the choreography
-    ######### DA COMPLETARE #########
+    size = len(state['choreography'])
+    
+    # if size > 1:
+    #   print(state['choreography'][-1] == move_name and state['choreography'][-2] == move_name)
+    #   if state['choreography'][-1] == move_name and state['choreography'][-2] == move_name:
+    #     return False
+    # if len(self.previous_moves[-1]) == 2:
+    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name:
+    #     return False
+    # if len(self.previous_moves[-1]) == 3:
+    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name:
+    #     return False
+    # if len(self.previous_moves[-1]) == 4:
+    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name \
+    #     or self.previous_moves[-1][-4] == move_name:
+    #     return False
+    # if len(self.previous_moves[-1]) == 5:
+    #   if self.previous_moves[-1][-1] == move_name or self.previous_moves[-1][-2] == move_name or self.previous_moves[-1][-3] == move_name \
+    #     or self.previous_moves[-1][-4] == move_name or self.previous_moves[-1][-5] == move_name:
+    #     return False
     return True
 
   def actions(self, state):
@@ -46,8 +65,8 @@ class NaoProblem(Problem):
     # We cycle trough the moves set and check each for usability from current state
     for move_name, move in self.available_moves.items():
         if self.isValid(state, move_name, move):
-            # The moves that satisfy our condition are added to the result
-            valid_actions.append(move_name)
+          # The moves that satisfy our condition are added to the result
+          valid_actions.append(move_name)
     # We shuffle the result list to increase diversity in the final solution
     random.shuffle(valid_actions)
     return valid_actions

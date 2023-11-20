@@ -135,7 +135,7 @@ def main(ip, port):
     solution = []
     print("SOLUTION:")
     starting_time = time.time()
-    interval_time = (120 - time_used) / (len(pos_list) - 1)
+    interval_time = (180 - time_used) / (len(pos_list) - 1)
     print(f"interv time: {interval_time} e time used {time_used}")
     waste = 0.0
     for i in range(1, len(pos_list)):
@@ -157,7 +157,7 @@ def main(ip, port):
         cur_goal_state = (
             ('standing', final_standing),
             ('remaining_time', 0),
-            ('moves_done', 3), #dovrebbe essere 5!!!!
+            ('moves_done', 5), #dovrebbe essere 5!!!!
             ('entropy', 0.0)) # entropia da calcolare, deve essere variabile
         
         cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
@@ -174,7 +174,9 @@ def main(ip, port):
         
         # save the remaining time
         waste = cur_solution['remaining_time']
-        solution.append(cur_solution['choreography'])
+        for e in [*cur_solution['choreography']]:
+            solution.append(e)
+        #solution.append(*cur_solution['choreography'])
         
     ending_time = time.time()
     solution.append(end_pos)
@@ -190,7 +192,7 @@ def main(ip, port):
     
     print('\nRESULTS:')
     print('Planning time: %.2f s.' % (ending_time - starting_time))
-    print('Estimated duration: %.2f s.' % (120 - waste))
+    print('Estimated duration: %.2f s.' % (180 - waste))
     print('Real duration: %.2f s.' % (end_dance - start_dance))
     print('Entropy: ', cur_solution['entropy'])
 
