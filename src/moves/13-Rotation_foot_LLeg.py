@@ -74,7 +74,7 @@ def main(robotIP, port):
 
     # Send NAO to Pose Init
 
-    postureProxy.goToPosture("StandInit", 0.3)
+    postureProxy.goToPosture("StandInit", 1.0)
 
 
 
@@ -132,7 +132,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.5) # waiting a few seconds
+    #time.sleep(0.5) # waiting a few seconds
 
     
 
@@ -158,7 +158,7 @@ def main(robotIP, port):
 
 
 
-    postureProxy.goToPosture("StandInit", 0.25)
+    postureProxy.goToPosture("StandInit", 1.0)
 
 
 
