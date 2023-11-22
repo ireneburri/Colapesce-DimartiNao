@@ -20,9 +20,24 @@ def entropy_calc(choreography):
         result -= probability * math.log(probability, 2)
     return result
 
-def common_el(L1, L2, N):
-    if '16-Sit' in L1:
-       L1.remove('16-Sit')
+def common_el(L1, L2):
+    L2 = list(L2)
+
+    #non voglio che si ripetano neanche questi
+    for L in [L1, L2]:
+      if '13-Rotation_foot_LLeg' in L :
+        L.remove('13-Rotation_foot_LLeg')
+        L.append('Rotation_foot_Leg')
+      if '12-Rotation_foot_RLeg' in L:
+        L.remove('12-Rotation_foot_RLeg')
+        L.append('Rotation_foot_Leg')
+      if '9-Diagonal_left' in L:
+        L.remove('9-Diagonal_left')
+        L.append('Diagonal_')
+      if '10-Diagonal_right' in L:
+        L.remove('10-Diagonal_right')
+        L.append('Diagonal_')
+
     set1 = set(L1)
     set2 = set(L2)
     common_elments = set1.intersection(set2)
@@ -62,10 +77,8 @@ class NaoProblem(Problem):
     past_mvs={}
     if len(self.past_chor)>=1:
       for chor in self.past_chor:
-        if common_el(chor, state['choreography'], len(self.past_chor))>=2:
+        if common_el(chor, state['choreography'])>=2:
           return False
-         
-      
     return True
 
   def actions(self, state):

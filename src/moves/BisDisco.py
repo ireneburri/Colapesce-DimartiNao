@@ -1,4 +1,4 @@
-    # Choregraphe simplified export in Python.
+# Choregraphe simplified export in Python.
 from naoqi import ALProxy
 
 import sys

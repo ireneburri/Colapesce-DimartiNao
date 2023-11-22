@@ -11,7 +11,7 @@ def play_song(song_name):
     p = vlc.MediaPlayer(song_name)
     try:
         c = p.play()
-        #time.sleep(60)
+        time.sleep(14)
     except Exception as e:
         print(e)
 
@@ -55,12 +55,6 @@ def main(ip, port):
              'Dab': [4.805154800415039, {}, {}], 
              'DanceMove': [8.894711017608643, {'standing': True}, {'standing': True}], 
              'Disco': [22.164984226226807, {}, {}], 
-             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
-             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
-             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
-             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
-             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
-
              'do_clapping_nosound': [6.495915412902832, {}, {}], 
              # WillAI "Clap" ci mette 5.96
              'Glory': [5.377662897109985, {}, {}], 
@@ -79,6 +73,19 @@ def main(ip, port):
              'the_robot_2': [6.340930938720703, {'standing': True}, {'standing': True}], 
              'Wave': [5.631593942642212, {}, {}],
              '16-Sit': [3.8506929874420166, {'standing': True}, {'standing': False}], 
+             'BisDisco':  [3.295485496520996, {'standing': True}, {'standing': True}],
+             'BisBirthdayA': [2.4781744480133057, {'standing': True}, {'standing': True}],
+             'BisBirthdayB': [2.4838335514068604, {'standing': True}, {'standing': True}],
+             'BisDisco': [2.804809331893921, {'standing': True}, {'standing': True}], 
+             'BisBirthdayA': [2.478088855743408, {'standing': True}, {'standing': True}], 
+             'BisBirthdayB': [2.4741721153259277, {'standing': True}, {'standing': True}], 
+             'BisClap': [1.9045133590698242, {'standing': True}, {'standing': True}], 
+             'BisHandsPoint': [2.051295042037964, {'standing': True}, {'standing': True}], 
+             'BisHeadNod': [0.03513479232788086, {'standing': True}, {'standing': True}], 
+             'BisRaiseRoof': [3.2126669883728027, {'standing': True}, {'standing': True}], 
+             'BisRobot': [2.026519775390625, {'standing': True}, {'standing': True}], 
+             'BisShakeHead': [2.3920693397521973, {'standing': True}, {'standing': True}], 
+             'BisSing': [3.432499885559082, {'standing': True}, {'standing': True}]
             }
 
     Mmoves = {'6-Crouch': [2.8168132305145264, {'standing': True}, {'standing': True}], 
@@ -141,13 +148,13 @@ def main(ip, port):
         cur_solution = dict((key, value) for key, value in cur_solutionT.state)
 
         #shuffle delle mosse in un intervallo
-        tempsol = list(cur_solution['choreography'][1:])
+        '''tempsol = list(cur_solution['choreography'][1:])
         a = cur_solution['choreography'][0]
         random.shuffle(tempsol)
         tempsol.insert(0, a)
         tempsol = tuple(tempsol)
         cur_solution['choreography'] = tempsol
-        print(cur_solution['choreography'])
+        print(cur_solution['choreography'])'''
 
         past_chor.append(list(cur_solution['choreography']))
 
