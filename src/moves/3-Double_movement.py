@@ -122,7 +122,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.1) # Waiting between the two movements
+    #time.sleep(0.1) # Waiting between the two movements
 
 
 
@@ -170,7 +170,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.2)
+    #time.sleep(0.1)
 
 
 
@@ -184,7 +184,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 
@@ -226,7 +226,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 
@@ -240,7 +240,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 
@@ -284,7 +284,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 

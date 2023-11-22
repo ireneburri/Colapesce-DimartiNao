@@ -113,7 +113,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0) # Waiting between the two movements
+    #time.sleep(0) # Waiting between the two movements
 
 
 
@@ -183,7 +183,7 @@ def main(robotIP, port):
 
 
 
-    time.sleep(0.5) # For a better movements synchronization
+    #time.sleep(0.5) # For a better movements synchronization
 
 
 
@@ -231,7 +231,7 @@ def main(robotIP, port):
 
     # Wait a few seconds
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 

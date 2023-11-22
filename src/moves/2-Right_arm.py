@@ -164,7 +164,7 @@ def main(robotIP, port):
 
     motionProxy.setAngles(names, angleLists, 0.1)
 
-    time.sleep(0.4)
+    #time.sleep(0.4)
 
 
 
@@ -194,7 +194,7 @@ def main(robotIP, port):
 
     motionProxy.setAngles(names, angleLists, 0.15)
 
-    time.sleep(0.2)
+    #time.sleep(0.2)
 
 
 

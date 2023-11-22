@@ -11,11 +11,12 @@ def play_song(song_name):
     p = vlc.MediaPlayer(song_name)
     try:
         c = p.play()
-        time.sleep(60)
+        #time.sleep(60)
     except Exception as e:
         print(e)
 
 def do_moves(moves, ip, port):
+    # Soundtrack startinr
     for move in moves:
         print(f"Move: {move}... ", end="", flush=True)
         # We create a command to execute each move one by one
@@ -27,100 +28,71 @@ def do_moves(moves, ip, port):
         print("\nExecution time: %.2f seconds." % (end_move-start_move), flush=True)
 
 def main(ip, port):
-    
-    ########## Definition of moves ########### (Ancora troppo lente)
-    moves = {'StandUp': [2.6926817893981934, {'standing': False}, {'standing': True}], #AI
-            #'DiagonalLeft': [6.5762670040130615, {}, {'standing': True}], #AI
-            '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], #NOI
-            'DoubleMovement': [8.062368392944336, {}, {}], #AI
-            #'3-Double_movement': [8.972091674804688, {}, {}], #NOI
-            #'MoveBackward': [6.146073579788208, {}, {'standing': True}], #AI
-            '8-Move_backward': [5.696051359176636, {}, {'standing': True}], #NOI
-            'MoveForward': [4.480520963668823, {}, {'standing': True}], #AI
-            #'7-Move_forward': [7.902349233627319, {}, {'standing': True}], #NOI
-            'RotationFootLLeg': [9.037095546722412, {'standing': True}, {'standing': True}], #AI
-            #'RotationHandgun': [7.611491918563843, {}, {}], #AI
-            '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], #NOI
-            #'Union_arms': [12.452294826507568, {}, {}], #AI
-            '5-Union_arms': [12.324305057525635, {}, {}], #NOI
-            'ArmsOpening': [7.709415674209595, {}, {}], #AI
-            #'4-Arms_opening': [9.06206750869751, {}, {}], #NOI
-            'BlowKisses': [6.305241823196411, {'standing': True}, {'standing': True}], #NO
-            'Bow': [5.573694705963135, {'standing': True}, {'standing': True}], #NO
-            #'DiagonalRight': [4.8617730140686035, {}, {'standing': True}], #AI
-            '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}], #NOI
-            'DanceMove': [8.829241037368774, {'standing': True}, {'standing': True}], #NO
-            'SprinklerL': [6.331864833831787, {'standing': True}, {'standing': True}], #AI
-            #'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], #NOI
-            'SprinklerR': [6.37097430229187, {'standing': True}, {'standing': True}], #AI
-            #'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], #NOI
-            #'TheRobot': [8.881108283996582, {'standing': True}, {'standing': True}], #AI
-            'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], #NOI
-            'ComeOn': [5.594178199768066, {'standing': True}, {'standing': True}], #NO
-            'StayingAlive': [8.572153329849243, {'standing': True}, {'standing': True}], #NO
-            'Rhythm': [4.64671516418457, {'standing': True}, {'standing': True}], #NO
-            'PulpFiction': [8.020118713378906, {'standing': True}, {'standing': True}], #NO
-            'RightArm': [13.841203689575195, {}, {}], #AI
-            #'2-Right_arm': [15.06546950340271, {}, {}], #NOI 
-            'Wave': [5.356391429901123, {}, {}], #NO
-            'Glory': [4.884756326675415, {}, {}], #NO
-            'Clap': [5.965200901031494, {}, {}], #AI
-            #'do_clapping_nosound': [6.812563896179199, {}, {}], #NOI
-            'Joy': [6.400599718093872, {}, {}], #NO
-            'M_Hello': [6.406063079833984, {'standing': True}, {'standing': True}], #AI
-            'birthday_dance_no_sound': [14.775976181030273, {}, {}], #NOI
-            'Disco': [23.86342430114746, {}, {}], #NOI
-            'hand_on_hip_with_point': [5.939987659454346, {}, {}], #NOI
-            'hands_on_hips': [3.282095193862915, {}, {}], #NOI
-            'head_nod': [4.943183660507202, {}, {}], #NOI
-            #'Headbang': [19.383045434951782, {}, {}], #NOI
-            'raise_the_roof': [5.969377756118774, {}, {}], #NOI
-            'shake_head': [5.66715145111084, {}, {}], #NOI
-            #'sing_with_me': [25.218955516815186, {}, {}], #NOI
-            '16-Sit': [3.1734857559204, {'standing': True}, {'standing': False}]
-            }
-    
-    """moves nostre= {
-            'birthday_dance_no_sound': [14.775976181030273, {}, {}], 
-            'Disco': [23.86342430114746, {}, {}], 
-            'do_clapping_nosound': [6.812563896179199, {}, {}], 
-            'hand_on_hip_with_point': [5.939987659454346, {}, {}], 
-            'hands_on_hips': [3.282095193862915, {}, {}], 
-            'head_nod': [4.943183660507202, {}, {}], 
-            'Headbang': [19.383045434951782, {}, {}], 
-            'raise_the_roof': [5.969377756118774, {}, {}], 
-            'shake_head': [5.66715145111084, {}, {}], 
-            'sing_with_me': [25.218955516815186, {}, {}], 
-            'sprinkler_left': [13.973316431045532, {'standing': True}, {'standing': True}], 
-            'sprinkler_right': [12.346796035766602, {'standing': True}, {'standing': True}], 
-            'the_robot_2': [7.365086317062378, {'standing': True}, {'standing': True}], 
-            '1-Rotation_handgun_object': [5.3489086627960205, {}, {}], 
-            '2-Right_arm': [15.06546950340271, {}, {}], 
-            '3-Double_movement': [8.972091674804688, {}, {}], 
-            '4-Arms_opening': [9.06206750869751, {}, {}], 
-            '5-Union_arms': [12.324305057525635, {}, {}], 
-            '7-Move_forward': [7.902349233627319, {}, {'standing': True}], 
-            '8-Move_backward': [5.696051359176636, {}, {'standing': True}], 
-            '9-Diagonal_left': [4.640681982040405, {}, {'standing': True}], 
-            '10-Diagonal_right': [4.309990406036377, {}, {'standing': True}]}
-    """
 
-    Mmoves = {'6-Crouch': [5.711416721343994, {'standing': True}, {'standing': True}], 
-              'M_WipeForehead': [6.438775539398193, {'standing': True}, {'standing': True}], #AI 
-              #'WipeForehead': [6.847378730773926, {'standing': True}, {'standing': True}], #NOI
-              'Hello': [6.775498390197754, {'standing': True}, {'standing': True}], 
-              #'M_Stand': [3.652195930480957, {'standing': True}, {'standing': True}], #AI
-              '11-Stand': [1.9577922821044922, {'standing': True}, {'standing': True}], #NOI
-              'M_StandInit': [2.5300939083099365, {'standing': True}, {'standing': True}], #AI
-              #'14-StandInit': [2.794734477996826, {'standing': True}, {'standing': True}], #NOI
-              '15-StandZero': [3.192218780517578, {'standing': True}, {'standing': True}], 
-              '16-Sit': [6.1734857559204, {'standing': True}, {'standing': False}], 
-              'M_SitRelax': [5.870312213897705, {'standing': False}, {'standing': False}] #AI
-              #'17-SitRelax': [10.248263120651245, {'standing': False}, {'standing': False}], #NOI
+    '''moves=["2-Right_arm", "3-Double_movement", "3-Double_movement", "4-Arms_opening", "5-Union_arms", "6-Crouch", "7-Move_forward", "8-Move_backward", "9-Diagonal_left", "10-Diagonal_right", "11-Stand", 
+             "12-Rotation_foot_RLeg", "13-Rotation_foot_LLeg", "14-StandInit", "15-StandZero", "16-Sit", "17-SitRelax", "AirGuitar", "birthday_dance_no_sound", "BlowKisses", "Bow", "ComeOn", "Dab", "DanceMove", 
+             "Disco", "do_clapping_nosound", "Glory", "hand_on_hip_with_point", "hands_on_hips", "head_nod", "Headbang", "Hello", "M_WipeForehead", "raise_the_roof", "Rhythm", "shake_head", "sing_with_me", 
+             "sprinkler_left", "sprinkler_right", "StayingAlive", "the_robot_2", "Wave"]
+    '''
+    #rotation_handgun_object
+
+    moves = {'2-Right_arm': [13.498584270477295, {}, {}], 
+             '3-Double_movement': [7.9943461418151855, {}, {}], 
+             '4-Arms_opening': [7.53334903717041, {}, {}], 
+             '5-Union_arms': [10.869457244873047, {}, {}], 
+             '7-Move_forward': [7.066644906997681, {}, {'standing': True}], 
+             '8-Move_backward': [5.388515949249268, {}, {'standing': True}],
+             # WillAI moveforward ci mette 4.48 sec 
+             '9-Diagonal_left': [3.675786256790161, {}, {'standing': True}], 
+             '10-Diagonal_right': [3.85556697845459, {}, {'standing': True}], 
+             '12-Rotation_foot_RLeg': [8.006103515625, {'standing': True}, {'standing': True}], 
+             '13-Rotation_foot_LLeg': [8.65566611289978, {'standing': True}, {'standing': True}], 
+             'AirGuitar': [6.247925281524658, {}, {}], 
+             'birthday_dance_no_sound': [13.914993047714233, {}, {}], 
+             'BlowKisses': [6.448557376861572, {'standing': True}, {'standing': True}], 
+             'Bow': [5.640871047973633, {'standing': True}, {'standing': True}], 
+             'ComeOn': [5.608509540557861, {'standing': True}, {'standing': True}], 
+             'Dab': [4.805154800415039, {}, {}], 
+             'DanceMove': [8.894711017608643, {'standing': True}, {'standing': True}], 
+             'Disco': [22.164984226226807, {}, {}], 
+             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
+             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
+             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
+             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
+             'prova2':  [3.295485496520996, {'standing': True}, {'standing': True}], #disco 3.2
+
+             'do_clapping_nosound': [6.495915412902832, {}, {}], 
+             # WillAI "Clap" ci mette 5.96
+             'Glory': [5.377662897109985, {}, {}], 
+             'hand_on_hip_with_point': [4.854234457015991, {}, {}], 
+             'hands_on_hips': [3.411938190460205, {}, {}], 
+             'head_nod': [4.4284749031066895, {}, {}], 
+             'Headbang': [17.47127628326416, {}, {}], 
+             'raise_the_roof': [5.058943510055542, {}, {}], 
+             'Rhythm': [4.874321222305298, {'standing': True}, {'standing': True}], 
+             'shake_head': [5.285283327102661, {}, {}], 
+             'sing_with_me': [20.584619522094727, {}, {}], 
+             'sprinkler_left': [12.87248969078064, {'standing': True}, {'standing': True}], 
+             'sprinkler_right': [11.470921754837036, {'standing': True}, {'standing': True}], 
+             # WillAI per entrambe ci mette +- 6 secondi
+             'StayingAlive': [8.643508672714233, {'standing': True}, {'standing': True}], 
+             'the_robot_2': [6.340930938720703, {'standing': True}, {'standing': True}], 
+             'Wave': [5.631593942642212, {}, {}],
+             '16-Sit': [3.8506929874420166, {'standing': True}, {'standing': False}], 
             }
-    
-    start_pos = 'M_StandInit'
-    mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'M_WipeForehead', '16-Sit', 'M_SitRelax']
+
+    Mmoves = {'6-Crouch': [2.8168132305145264, {'standing': True}, {'standing': True}], 
+             'M_WipeForehead': [6.363635301589966, {'standing': True}, {'standing': True}], 
+             'Hello': [6.2890472412109375, {'standing': True}, {'standing': True}], 
+             '11-Stand': [1.5150482654571533, {'standing': True}, {'standing': True}], 
+             '14-StandInit': [1.1120691299438477, {'standing': True}, {'standing': True}], 
+             '15-StandZero': [1.613008737564087, {'standing': True}, {'standing': True}], 
+             '16-Sit': [3.8506929874420166, {'standing': True}, {'standing': False}], 
+             '17-SitRelax': [2.084895133972168, {'standing': False}, {'standing': False}], 
+            }
+
+    start_pos = '14-StandInit'
+    mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'M_WipeForehead', '16-Sit', '17-SitRelax']
     end_pos = '6-Crouch'
     pos_list = [start_pos, *mandatory_pos, end_pos]
     time_used = 0.0
@@ -139,18 +111,15 @@ def main(ip, port):
     interval_time = (180 - time_used) / (len(pos_list) - 1)
     print(f"interv time: {interval_time} e time used {time_used}")
     waste = 0.0
+
+    past_chor = []
     for i in range(1, len(pos_list)):
         initial_pos = pos_list[i - 1]
         final_pos = pos_list[i]
-        
         choreography = (initial_pos, ) # Per ora è un singolo oggetto, poi da cambiare
-        
-        print("tempo mossa i", Mmoves[pos_list[i-1]])
         initial_standing = Mmoves[pos_list[i-1]][1]['standing']
         final_standing = Mmoves[pos_list[i-1]][2]['standing']
-        print(initial_standing, final_standing)
-        
-        entropy = [0, 0, 0, 0, 0, 0, 0, 0]
+        entropy = [0, 2.5, 2.0, 2.5, 3.5, 3.5, 3.5, 4] # CAPISCI COS'E' ENTROPIA PERCHE!!!!!!!!!!
         cur_state = (
             ('choreography', choreography),
             ('standing', initial_standing),
@@ -160,16 +129,27 @@ def main(ip, port):
         cur_goal_state = (
             ('standing', final_standing),
             ('remaining_time', 0),
-            ('moves_done', 5), #dovrebbe essere 5!!!!
-            ('entropy', entropy[i])) # entropia da calcolare, deve essere variabile
+            ('moves_done', 5), 
+            ('entropy', entropy[i])) # !!!!!!!!
         
-        cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time)
+        cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time, past_chor)
         cur_solutionT = astar_search(cur_problem)
         
-        print(cur_solutionT)
         if cur_solutionT is None:
             raise RuntimeError(f'In step {i} i could not find a solution!')
+        
         cur_solution = dict((key, value) for key, value in cur_solutionT.state)
+
+        #shuffle delle mosse in un intervallo
+        tempsol = list(cur_solution['choreography'][1:])
+        a = cur_solution['choreography'][0]
+        random.shuffle(tempsol)
+        tempsol.insert(0, a)
+        tempsol = tuple(tempsol)
+        cur_solution['choreography'] = tempsol
+        print(cur_solution['choreography'])
+
+        past_chor.append(list(cur_solution['choreography']))
 
         print('Step ', i, ':')
         for j in cur_solution['choreography']:
@@ -187,8 +167,7 @@ def main(ip, port):
     # Execution of the dance
     print('\nExecuting dance:')
     
-    # Soundtrack starting
-    play_song("music.mp3") #XXXXXXXXXXXXXXXXXXXXX
+    play_song("music.mp3") 
     start_dance = time.time()
     do_moves(solution, ip, port)
     end_dance = time.time()

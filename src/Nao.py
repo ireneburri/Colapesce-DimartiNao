@@ -20,12 +20,21 @@ def entropy_calc(choreography):
         result -= probability * math.log(probability, 2)
     return result
 
+def common_el(L1, L2, N):
+    if '16-Sit' in L1:
+       L1.remove('16-Sit')
+    set1 = set(L1)
+    set2 = set(L2)
+    common_elments = set1.intersection(set2)
+    return len(common_elments)
+
 class NaoProblem(Problem):
-  def __init__(self, initial, goal, moves, previous_moves, avg_time): # avg_time, previous_moves
+  def __init__(self, initial, goal, moves, previous_moves, avg_time, past_chor):
     super().__init__(initial, goal)
     self.available_moves = moves 
     self.previous_moves = previous_moves 
     self.avg_time = avg_time
+    self.past_chor = past_chor
 
   # Function that evaluates if a move is usable after a certain state
   def isValid(self, stateT, move_name, move):
@@ -36,7 +45,7 @@ class NaoProblem(Problem):
     if 'standing' in move[1]:
       if state['standing'] != move[1]['standing']:
         return False
-
+            
     #controllo che sia diversa alle 3 mosse precedenti 
     if len(state['choreography'])>=1 and move_name == state['choreography'][-1]:
        return False
@@ -44,7 +53,19 @@ class NaoProblem(Problem):
        return False
     if len(state['choreography'])>=3 and move_name == state['choreography'][-3]:
        return False
-  
+    if len(state['choreography'])>=4 and move_name == state['choreography'][-4]:
+       return False
+
+#Domanda: ma prende l'ultima choreograohy provata anche se alcune prima vanno bene? possibilità di mettere un break da qualche parte?
+    
+    #CONTROLLO CHOREOGRAPHY PRECEDENTI - non ci possono essere più di due mosse
+    past_mvs={}
+    if len(self.past_chor)>=1:
+      for chor in self.past_chor:
+        if common_el(chor, state['choreography'], len(self.past_chor))>=2:
+          return False
+         
+      
     return True
 
   def actions(self, state):
@@ -101,8 +122,6 @@ class NaoProblem(Problem):
 
     # Check if we reached our goal standing state
     standing_constraint = (state['standing'] == goal['standing'])
-    #print(f"standing {state['standing']} == {goal['standing']}  :  {standing_constraint}")
-    #print(time_constraint and moves_done_constraint and entropy_constraint and standing_constraint)
     return time_constraint and moves_done_constraint and entropy_constraint and standing_constraint
 
     # Heuristic function used in A* search

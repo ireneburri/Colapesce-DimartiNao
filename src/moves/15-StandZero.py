@@ -75,7 +75,7 @@ def main(robotIP, port):
 
     # Send NAO to Pose Crouch
 
-    postureProxy.goToPosture("StandZero", 1.0)
+    postureProxy.applyPosture("StandZero", 1.0)
 
 
 

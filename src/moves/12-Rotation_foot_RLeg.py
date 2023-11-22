@@ -74,7 +74,7 @@ def main(robotIP, port):
 
     # Send NAO to Pose Init
 
-    postureProxy.goToPosture("StandInit", 1.0)
+    postureProxy.applyPosture("StandInit", 1.0)
 
 
 
@@ -134,7 +134,7 @@ def main(robotIP, port):
 
     # Back to the inizial position
 
-    postureProxy.goToPosture("StandInit", 1.0)
+    postureProxy.applyPosture("StandInit", 1.0)
 
 
 
