@@ -7,6 +7,7 @@ import subprocess
 import time
 import math
 
+#Function that uses vlc library to play a song given in input 
 def play_song(song_name):
     p = vlc.MediaPlayer(song_name)
     try:
@@ -15,11 +16,10 @@ def play_song(song_name):
     except Exception as e:
         print(e)
 
+#Function that actually makes the robot moves
 def do_moves(moves, ip, port):
-    # Soundtrack startinr
     for move in moves:
         print(f"Move: {move}... ", end="", flush=True)
-        # We create a command to execute each move one by one
         command = f"python2 ./moves/{move}.py  {ip} {port}"
         start_move = time.time()
         process = subprocess.run(command.split(), stdout=subprocess.PIPE)
@@ -29,24 +29,17 @@ def do_moves(moves, ip, port):
 
 def main(ip, port):
 
-    '''moves=["2-Right_arm", "3-Double_movement", "3-Double_movement", "4-Arms_opening", "5-Union_arms", "6-Crouch", "7-Move_forward", "8-Move_backward", "9-Diagonal_left", "10-Diagonal_right", "11-Stand", 
-             "12-Rotation_foot_RLeg", "13-Rotation_foot_LLeg", "14-StandInit", "15-StandZero", "16-Sit", "17-SitRelax", "AirGuitar", "birthday_dance_no_sound", "BlowKisses", "Bow", "ComeOn", "Dab", "DanceMove", 
-             "Disco", "do_clapping_nosound", "Glory", "hand_on_hip_with_point", "hands_on_hips", "head_nod", "Headbang", "Hello", "M_WipeForehead", "raise_the_roof", "Rhythm", "shake_head", "sing_with_me", 
-             "sprinkler_left", "sprinkler_right", "StayingAlive", "the_robot_2", "Wave"]
-    '''
-    #rotation_handgun_object
-
+    #Dictionary of moves available with the execution time, precondition and postcondition
     moves = {'2-Right_arm': [13.498584270477295, {}, {}], 
              '3-Double_movement': [7.9943461418151855, {}, {}], 
              '4-Arms_opening': [7.53334903717041, {}, {}], 
              '5-Union_arms': [10.869457244873047, {}, {}], 
              '7-Move_forward': [7.066644906997681, {}, {'standing': True}], 
              '8-Move_backward': [5.388515949249268, {}, {'standing': True}],
-             # WillAI moveforward ci mette 4.48 sec 
              '9-Diagonal_left': [3.675786256790161, {}, {'standing': True}], 
              '10-Diagonal_right': [3.85556697845459, {}, {'standing': True}], 
-             '12-Rotation_foot_RLeg': [8.006103515625, {'standing': True}, {'standing': True}], 
-             '13-Rotation_foot_LLeg': [8.65566611289978, {'standing': True}, {'standing': True}], 
+             #'12-Rotation_foot_RLeg': [8.006103515625, {'standing': True}, {'standing': True}], 
+             #'13-Rotation_foot_LLeg': [8.65566611289978, {'standing': True}, {'standing': True}], 
              'AirGuitar': [6.247925281524658, {}, {}], 
              'birthday_dance_no_sound': [13.914993047714233, {}, {}], 
              'BlowKisses': [6.448557376861572, {'standing': True}, {'standing': True}], 
@@ -56,7 +49,6 @@ def main(ip, port):
              'DanceMove': [8.894711017608643, {'standing': True}, {'standing': True}], 
              'Disco': [22.164984226226807, {}, {}], 
              'do_clapping_nosound': [6.495915412902832, {}, {}], 
-             # WillAI "Clap" ci mette 5.96
              'Glory': [5.377662897109985, {}, {}], 
              'hand_on_hip_with_point': [4.854234457015991, {}, {}], 
              'hands_on_hips': [3.411938190460205, {}, {}], 
@@ -68,7 +60,6 @@ def main(ip, port):
              'sing_with_me': [20.584619522094727, {}, {}], 
              'sprinkler_left': [12.87248969078064, {'standing': True}, {'standing': True}], 
              'sprinkler_right': [11.470921754837036, {'standing': True}, {'standing': True}], 
-             # WillAI per entrambe ci mette +- 6 secondi
              'StayingAlive': [8.643508672714233, {'standing': True}, {'standing': True}], 
              'the_robot_2': [6.340930938720703, {'standing': True}, {'standing': True}], 
              'Wave': [5.631593942642212, {}, {}],
@@ -79,7 +70,6 @@ def main(ip, port):
              'BisDisco': [2.804809331893921, {'standing': True}, {'standing': True}], 
              'BisBirthdayA': [2.478088855743408, {'standing': True}, {'standing': True}], 
              'BisBirthdayB': [2.4741721153259277, {'standing': True}, {'standing': True}], 
-             'BisClap': [1.9045133590698242, {'standing': True}, {'standing': True}], 
              'BisHandsPoint': [2.051295042037964, {'standing': True}, {'standing': True}], 
              'BisHeadNod': [0.03513479232788086, {'standing': True}, {'standing': True}], 
              'BisRaiseRoof': [3.2126669883728027, {'standing': True}, {'standing': True}], 
@@ -88,6 +78,7 @@ def main(ip, port):
              'BisSing': [3.432499885559082, {'standing': True}, {'standing': True}]
             }
 
+    #Dictionary of mandatory moves with the execution time, precondition and postcondition
     Mmoves = {'6-Crouch': [2.8168132305145264, {'standing': True}, {'standing': True}], 
              'M_WipeForehead': [6.363635301589966, {'standing': True}, {'standing': True}], 
              'Hello': [6.2890472412109375, {'standing': True}, {'standing': True}], 
@@ -102,76 +93,72 @@ def main(ip, port):
     mandatory_pos = ['11-Stand', '15-StandZero', 'Hello', 'M_WipeForehead', '16-Sit', '17-SitRelax']
     end_pos = '6-Crouch'
     pos_list = [start_pos, *mandatory_pos, end_pos]
+
+    #We calculate the time used by the mandatory moves
     time_used = 0.0
     for pos in pos_list:
-        time_used += Mmoves[pos][0] #duration
+        time_used += Mmoves[pos][0]
         
+    #We calculate the average duration of the available moves
     avg_time = 0.0
     for pos in moves.values():
         avg_time += pos[0]
     avg_time = avg_time/len(moves)
-    print(f"avg time {avg_time}")
+    print(f"Average execution time: {avg_time}")
     
     solution = []
     print("SOLUTION:")
     starting_time = time.time()
     interval_time = (180 - time_used) / (len(pos_list) - 1)
-    print(f"interv time: {interval_time} e time used {time_used}")
+    print(f"Interval time: {interval_time} \nTime used for mandatory moves: {time_used}")
+    
     waste = 0.0
-
     past_chor = []
+
+    #We iterate through the mandatory position in order to create a choreograpy for each interval
     for i in range(1, len(pos_list)):
+
         initial_pos = pos_list[i - 1]
         final_pos = pos_list[i]
-        choreography = (initial_pos, ) # Per ora è un singolo oggetto, poi da cambiare
-        initial_standing = Mmoves[pos_list[i-1]][1]['standing']
-        final_standing = Mmoves[pos_list[i-1]][2]['standing']
-        entropy = [0, 2.5, 2.0, 2.5, 3.5, 3.5, 3.5, 4] # CAPISCI COS'E' ENTROPIA PERCHE!!!!!!!!!!
+        initial_standing = Mmoves[initial_pos][1]['standing']
+        final_standing = Mmoves[final_pos][1]['standing']
+        choreography = (initial_pos, ) 
+
         cur_state = (
             ('choreography', choreography),
             ('standing', initial_standing),
             ('remaining_time', interval_time + waste),
-            ('moves_done', 0),
-            ('entropy', 0.0))
+            ('moves_done', 0))
+        
         cur_goal_state = (
             ('standing', final_standing),
             ('remaining_time', 0),
-            ('moves_done', 5), 
-            ('entropy', entropy[i])) # !!!!!!!!
+            ('moves_done', 5))
         
         cur_problem = NaoProblem(cur_state, cur_goal_state, moves, tuple(solution), avg_time, past_chor)
-        cur_solutionT = astar_search(cur_problem)
+        cur_solutionTuple = astar_search(cur_problem)
         
-        if cur_solutionT is None:
+        if cur_solutionTuple is None:
             raise RuntimeError(f'In step {i} i could not find a solution!')
         
-        cur_solution = dict((key, value) for key, value in cur_solutionT.state)
+        cur_solution = dict((key, value) for key, value in cur_solutionTuple.state)
 
-        #shuffle delle mosse in un intervallo
-        '''tempsol = list(cur_solution['choreography'][1:])
-        a = cur_solution['choreography'][0]
-        random.shuffle(tempsol)
-        tempsol.insert(0, a)
-        tempsol = tuple(tempsol)
-        cur_solution['choreography'] = tempsol
-        print(cur_solution['choreography'])'''
-
+        #We take track of each choreography in order to make comparison between them and avoid repetitions
         past_chor.append(list(cur_solution['choreography']))
 
         print('Step ', i, ':')
         for j in cur_solution['choreography']:
             print(' ' + j)
         
-        # save the remaining time
+        #We save the remaining time
         waste = cur_solution['remaining_time']
         for e in [*cur_solution['choreography']]:
             solution.append(e)
-        #solution.append(*cur_solution['choreography'])
         
     ending_time = time.time()
     solution.append(end_pos)
     
-    # Execution of the dance
+    #Execution of the entire choreography
     print('\nExecuting dance:')
     
     play_song("music.mp3") 
@@ -183,7 +170,6 @@ def main(ip, port):
     print('Planning time: %.2f s.' % (ending_time - starting_time))
     print('Estimated duration: %.2f s.' % (180 - waste))
     print('Real duration: %.2f s.' % (end_dance - start_dance))
-    print('Entropy: ', cur_solution['entropy'])
 
 
 
