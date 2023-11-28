@@ -15,4 +15,4 @@ Python2 and Python3 installation required
 Virtual Robot: NAO H25 (V50)
 
 Github repository:
-https://github.com/ireneburri/Colapesce-DimartiNao/tree/3777513353204edea119f3aa4ed01d2a014c6d31
+https://github.com/ireneburri/Colapesce-DimartiNao.git
