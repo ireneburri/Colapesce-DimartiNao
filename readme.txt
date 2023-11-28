@@ -4,8 +4,8 @@ NAO Planning Challenge
 Team: ColapesceDimartiNao
 
 Authors:
-Irene Burri-irene.burri@studio.unibo.it
-Tancredi Bosi-tancredi.bosi@studio.unibo.it
+Irene Burri - irene.burri@studio.unibo.it
+Tancredi Bosi - tancredi.bosi@studio.unibo.it
 
 Libraries:
 vlc library
