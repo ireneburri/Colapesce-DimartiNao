@@ -71,7 +71,7 @@ def main(ip, port):
              'BisBirthdayA': [2.478088855743408, {'standing': True}, {'standing': True}], 
              'BisBirthdayB': [2.4741721153259277, {'standing': True}, {'standing': True}], 
              'BisHandsPoint': [2.051295042037964, {'standing': True}, {'standing': True}], 
-             'BisHeadNod': [0.03513479232788086, {'standing': True}, {'standing': True}], 
+             #'BisHeadNod': [0.03513479232788086, {'standing': True}, {'standing': True}], 
              'BisRaiseRoof': [3.2126669883728027, {'standing': True}, {'standing': True}], 
              'BisRobot': [2.026519775390625, {'standing': True}, {'standing': True}], 
              'BisShakeHead': [2.3920693397521973, {'standing': True}, {'standing': True}], 
