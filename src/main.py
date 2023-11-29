@@ -12,20 +12,20 @@ def play_song(song_name):
     p = vlc.MediaPlayer(song_name)
     try:
         c = p.play()
-        time.sleep(14)
+        time.sleep(2)
     except Exception as e:
         print(e)
 
 #Function that actually makes the robot moves
 def do_moves(moves, ip, port):
     for move in moves:
-        print(f"Move: {move}... ", end="", flush=True)
+        print(f"\n {move} ", end="", flush=True)
         command = f"python2 ./moves/{move}.py  {ip} {port}"
         start_move = time.time()
         process = subprocess.run(command.split(), stdout=subprocess.PIPE)
         end_move = time.time()
         # We used this print in testing to adjust the execution time of our moves set
-        print("\nExecution time: %.2f seconds." % (end_move-start_move), flush=True)
+        #print("\nExecution time: %.2f seconds." % (end_move-start_move), flush=True)
 
 def main(ip, port):
 
@@ -52,7 +52,7 @@ def main(ip, port):
              'Glory': [5.377662897109985, {}, {}], 
              'hand_on_hip_with_point': [4.854234457015991, {}, {}], 
              'hands_on_hips': [3.411938190460205, {}, {}], 
-             'head_nod': [4.4284749031066895, {}, {}], 
+             #'head_nod': [4.4284749031066895, {}, {}], 
              'Headbang': [17.47127628326416, {}, {}], 
              'raise_the_roof': [5.058943510055542, {}, {}], 
              'Rhythm': [4.874321222305298, {'standing': True}, {'standing': True}], 
@@ -65,18 +65,16 @@ def main(ip, port):
              'Wave': [5.631593942642212, {}, {}],
              '16-Sit': [3.8506929874420166, {'standing': True}, {'standing': False}], 
              'BisDisco':  [3.295485496520996, {'standing': True}, {'standing': True}],
-             'BisBirthdayA': [2.4781744480133057, {'standing': True}, {'standing': True}],
-             'BisBirthdayB': [2.4838335514068604, {'standing': True}, {'standing': True}],
-             'BisDisco': [2.804809331893921, {'standing': True}, {'standing': True}], 
-             'BisBirthdayA': [2.478088855743408, {'standing': True}, {'standing': True}], 
-             'BisBirthdayB': [2.4741721153259277, {'standing': True}, {'standing': True}], 
-             'BisHandsPoint': [2.051295042037964, {'standing': True}, {'standing': True}], 
-             #'BisHeadNod': [0.03513479232788086, {'standing': True}, {'standing': True}], 
+             'BisHandsPoint': [2.9496712684631348, {'standing': True}, {'standing': True}], 
+             'BisHeadNod': [2.755136489868164, {'standing': True}, {'standing': True}],
              'BisRaiseRoof': [3.2126669883728027, {'standing': True}, {'standing': True}], 
              'BisRobot': [2.026519775390625, {'standing': True}, {'standing': True}], 
              'BisShakeHead': [2.3920693397521973, {'standing': True}, {'standing': True}], 
-             'BisSing': [3.432499885559082, {'standing': True}, {'standing': True}]
-            }
+             'BisSing': [3.432499885559082, {'standing': True}, {'standing': True}],
+             'BisClap': [2.4191088676452637, {'standing': True}, {'standing': True}], 
+             'BisBirthdayA': [2.778902769088745, {'standing': True}, {'standing': True}], 
+             'BisBirthdayB': [3.007429838180542, {'standing': True}, {'standing': True}],
+             'BisHeadNod': [2.556999683380127, {'standing': True}, {'standing': True}]}
 
     #Dictionary of mandatory moves with the execution time, precondition and postcondition
     Mmoves = {'6-Crouch': [2.8168132305145264, {'standing': True}, {'standing': True}], 
@@ -159,7 +157,7 @@ def main(ip, port):
     solution.append(end_pos)
     
     #Execution of the entire choreography
-    print('\nExecuting dance:')
+    print('\n--------Executing dance--------')
     
     play_song("music.mp3") 
     start_dance = time.time()

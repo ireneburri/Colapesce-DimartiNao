@@ -5,26 +5,31 @@ import math
 #Function that given two list, choreography, returns the number of common moves between them
 def common_el(L1, L2):
     L2 = list(L2)
+    #Since these moves are very similar we consider them as the same
+    modified_L1 = [item.replace('13-Rotation_foot_LLeg', 'Rotation_foot_Leg')
+                         .replace('12-Rotation_foot_RLeg', 'Rotation_foot_Leg')
+                         .replace('7-Move_forward', 'Diagonal_')
+                         .replace('8-Move_backward', 'Diagonal_')
+                         .replace('9-Diagonal_left', 'Diagonal_')
+                         .replace('10-Diagonal_right', 'Diagonal_') for item in L1]
 
-    #We consider as the same move also these very similar moves with different name
-    for L in [L1, L2]:
-      if '13-Rotation_foot_LLeg' in L :
-        L.remove('13-Rotation_foot_LLeg')
-        L.append('Rotation_foot_Leg')
-      if '12-Rotation_foot_RLeg' in L:
-        L.remove('12-Rotation_foot_RLeg')
-        L.append('Rotation_foot_Leg')
-      if '9-Diagonal_left' in L:
-        L.remove('9-Diagonal_left')
-        L.append('Diagonal_')
-      if '10-Diagonal_right' in L:
-        L.remove('10-Diagonal_right')
-        L.append('Diagonal_')
+    modified_L2 = [item.replace('13-Rotation_foot_LLeg', 'Rotation_foot_Leg')
+                         .replace('12-Rotation_foot_RLeg', 'Rotation_foot_Leg')
+                         .replace('7-Move_forward', 'Diagonal_')
+                         .replace('8-Move_backward', 'Diagonal_')
+                         .replace('9-Diagonal_left', 'Diagonal_')
+                         .replace('10-Diagonal_right', 'Diagonal_') for item in L2]
+    
 
-    set1 = set(L1)
-    set2 = set(L2)
-    common_elments = set1.intersection(set2)
-    return len(common_elments)
+    set1 = set(modified_L1)
+    set2 = set(modified_L2)
+
+    common_elements = set1.intersection(set2)
+    if 'Diagonal_' in modified_L2:
+       common_elements = len(common_elements)+modified_L2.count('Diagonal_')-1
+       return common_elements
+    else:
+      return len(common_elements)
 
 class NaoProblem(Problem):
   def __init__(self, initial, goal, moves, previous_moves, avg_time, past_chor):
